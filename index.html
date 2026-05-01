@@ -44,14 +44,22 @@
     <!-- Viewer header -->
     <section class="viewer-header">
       <h2 id="viewerTitle">Full Chart</h2>
+      <h3 id="viewerSubtitle">Adams Chart of History — Complete Overview</h3>
       <p id="viewerDescription">
-        The complete Adams Synchronological Chart. Use this view for orientation
-        across the entire timeline.
+        The complete Adams Synchronological Chart of Universal History, spanning from creation to 1881. This panoramic view shows the rise and fall of nations, the lineage of key figures, and the flow of world history in a single sweeping timeline.
       </p>
     </section>
 
     <!-- Viewer -->
-    <div id="openseadragon-viewer" class="viewer"></div>
+    <div class="viewer-wrapper">
+      <div id="openseadragon-viewer" class="viewer"></div>
+      <div id="loadingOverlay" class="loading-overlay" hidden>
+        <div class="loading-box">
+          <div class="spinner"></div>
+          <p>Loading high-resolution image…<br><small>Large files may take 30–60 seconds.</small></p>
+        </div>
+      </div>
+    </div>
 
     <!-- Note + actions -->
     <p class="viewer-note">

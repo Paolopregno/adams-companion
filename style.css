@@ -156,18 +156,35 @@ main {
 .viewer-header {
   text-align: center;
   margin: 1rem 0 0.5rem;
+  max-width: 820px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .viewer-header h2 {
-  margin: 0 0 0.25rem;
+  margin: 0 0 0.15rem;
   color: var(--title);
   font-size: 1.4rem;
+  letter-spacing: 0.5px;
+}
+
+.viewer-header h3 {
+  margin: 0 0 0.5rem;
+  color: var(--accent);
+  font-size: 1.1rem;
+  font-weight: normal;
+  font-style: italic;
+}
+
+.viewer-header h3:empty {
+  display: none;
 }
 
 .viewer-header p {
   margin: 0;
-  font-size: 0.95rem;
+  font-size: 0.97rem;
   color: var(--text);
+  line-height: 1.55;
 }
 
 .viewer {
@@ -178,6 +195,48 @@ main {
   border-radius: 6px;
   box-shadow: var(--shadow);
   margin-top: 0.75rem;
+}
+
+/* Wrapper to position the loading overlay on top of the viewer */
+.viewer-wrapper {
+  position: relative;
+}
+
+.loading-overlay {
+  position: absolute;
+  inset: 0.75rem 0 0 0; /* match .viewer margin-top */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(245, 236, 215, 0.92);
+  border-radius: 6px;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.loading-box {
+  text-align: center;
+  color: var(--title);
+  font-size: 1rem;
+}
+
+.loading-box small {
+  color: var(--accent);
+  font-size: 0.85rem;
+}
+
+.spinner {
+  width: 36px;
+  height: 36px;
+  margin: 0 auto 0.75rem;
+  border: 3px solid var(--border);
+  border-top-color: var(--title);
+  border-radius: 50%;
+  animation: spin 0.9s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
 }
 
 /* OpenSeadragon canvas inherits parent bg via this */

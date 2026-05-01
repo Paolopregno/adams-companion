@@ -4,19 +4,70 @@
 const PANELS = {
   full: {
     title: "Full Chart",
-    description: "The complete Adams Synchronological Chart. Use this view for orientation across the entire timeline.",
+    subtitle: "Adams Chart of History — Complete Overview",
+    description: "The complete Adams Synchronological Chart of Universal History, spanning from creation to 1881. This panoramic view shows the rise and fall of nations, the lineage of key figures, and the flow of world history in a single sweeping timeline.",
     image: "assets/adams-full.jpg"
   },
-  p1:  { title: "Panel 1",  description: "Panel 1 of the Adams Chart.",  image: "assets/panel-01.jpg" },
-  p2:  { title: "Panel 2",  description: "Panel 2 of the Adams Chart.",  image: "assets/panel-02.jpg" },
-  p3:  { title: "Panel 3",  description: "Panel 3 of the Adams Chart.",  image: "assets/panel-03.jpg" },
-  p4:  { title: "Panel 4",  description: "Panel 4 of the Adams Chart.",  image: "assets/panel-04.jpg" },
-  p5:  { title: "Panel 5",  description: "Panel 5 of the Adams Chart.",  image: "assets/panel-05.jpg" },
-  p6:  { title: "Panel 6",  description: "Panel 6 of the Adams Chart.",  image: "assets/panel-06.jpg" },
-  p7:  { title: "Panel 7",  description: "Panel 7 of the Adams Chart.",  image: "assets/panel-07.jpg" },
-  p8:  { title: "Panel 8",  description: "Panel 8 of the Adams Chart.",  image: "assets/panel-08.jpg" },
-  p9:  { title: "Panel 9",  description: "Panel 9 of the Adams Chart.",  image: "assets/panel-09.jpg" },
-  p10: { title: "Panel 10", description: "Panel 10 of the Adams Chart.", image: "assets/panel-10.jpg" }
+  p1: {
+    title: "Panel 1",
+    subtitle: "Creation to the Flood",
+    description: "The beginning of the world, the creation of Adam and Eve, the Garden of Eden, the Fall, the generations from Adam to Noah, and the Great Flood.",
+    image: "assets/panel-01.jpg"
+  },
+  p2: {
+    title: "Panel 2",
+    subtitle: "Post-Flood to the Patriarchs",
+    description: "The descendants of Noah, the scattering of nations at Babel, the call of Abraham, and the lives of Isaac and Jacob.",
+    image: "assets/panel-02.jpg"
+  },
+  p3: {
+    title: "Panel 3",
+    subtitle: "The Patriarchs to the Exodus",
+    description: "The sojourn in Egypt, the life of Joseph, the oppression under Pharaoh, and the birth and calling of Moses.",
+    image: "assets/panel-03.jpg"
+  },
+  p4: {
+    title: "Panel 4",
+    subtitle: "The Exodus and the Law",
+    description: "The deliverance from Egypt, the giving of the Law at Sinai, the wilderness wanderings, and the preparation to enter the Promised Land.",
+    image: "assets/panel-04.jpg"
+  },
+  p5: {
+    title: "Panel 5",
+    subtitle: "Conquest to the United Kingdom",
+    description: "The conquest of Canaan under Joshua, the era of the Judges, the rise of Saul, and the golden age of David and Solomon.",
+    image: "assets/panel-05.jpg"
+  },
+  p6: {
+    title: "Panel 6",
+    subtitle: "The Divided Kingdom to Assyrian Captivity",
+    description: "The division of Israel and Judah, the ministries of Elijah and Elisha, the prophets, and the Assyrian conquest of the northern kingdom.",
+    image: "assets/panel-06.jpg"
+  },
+  p7: {
+    title: "Panel 7",
+    subtitle: "Babylonian Exile to Persian Restoration",
+    description: "The fall of Jerusalem, the Babylonian captivity, the rise of Persia under Cyrus, the return and rebuilding of the Temple.",
+    image: "assets/panel-07.jpg"
+  },
+  p8: {
+    title: "Panel 8",
+    subtitle: "The Greek Empire and Intertestamental Period",
+    description: "Alexander the Great, the Hellenistic kingdoms, the Ptolemies and Seleucids, the Maccabean revolt, and the rise of Rome.",
+    image: "assets/panel-08.jpg"
+  },
+  p9: {
+    title: "Panel 9",
+    subtitle: "The Roman Empire and the Life of Christ",
+    description: "The Roman world, the birth and ministry of Jesus Christ, the crucifixion and resurrection, and the spread of the early Church.",
+    image: "assets/panel-09.jpg"
+  },
+  p10: {
+    title: "Panel 10",
+    subtitle: "Constantine to the Modern Era (1881)",
+    description: "Constantine and the Christian empire, Charlemagne, the Crusades, the Reformation under Luther, the age of discovery with Columbus, Napoleon, and the modern world to 1881.",
+    image: "assets/panel-10.jpg"
+  }
 };
 
 // Order used for Previous / Next navigation
@@ -49,6 +100,7 @@ const SEARCH_INDEX = [
 
 /* -------- DOM references -------- */
 const titleEl       = document.getElementById("viewerTitle");
+const subtitleEl    = document.getElementById("viewerSubtitle");
 const descEl        = document.getElementById("viewerDescription");
 const navButtons    = document.querySelectorAll(".nav-btn");
 const searchInput   = document.getElementById("searchInput");
@@ -83,8 +135,12 @@ function loadPanel(key) {
   const panel = PANELS[key];
 
   // Update header text
-  titleEl.textContent = panel.title;
-  descEl.textContent  = panel.description;
+  titleEl.textContent    = panel.title;
+  subtitleEl.textContent = panel.subtitle || "";
+  descEl.textContent     = panel.description;
+
+  // Show loading overlay
+  showLoading(true);
 
   // Swap the image in the existing viewer (no new viewer instance)
   viewer.open({
@@ -103,9 +159,21 @@ function loadPanel(key) {
   nextBtn.disabled = idx === -1 || idx >= PANEL_ORDER.length - 1;
 }
 
-/* -------- Reset zoom whenever a new image is opened -------- */
+/* -------- Loading overlay helper -------- */
+function showLoading(visible) {
+  const el = document.getElementById("loadingOverlay");
+  if (el) el.hidden = !visible;
+}
+
+/* -------- Reset zoom and hide loader when image is ready -------- */
 viewer.addHandler("open", () => {
   viewer.viewport.goHome(true);
+  showLoading(false);
+});
+
+viewer.addHandler("open-failed", () => {
+  showLoading(false);
+  titleEl.textContent = PANELS[currentKey].title + " — failed to load";
 });
 
 /* -------- Navigation buttons -------- */
