@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Adams Chart Visual Companion</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="site-header">
+    <h1>Adams Chart Visual Companion</h1>
+    <p class="intro">
+      Explore the full Adams Synchronological Chart and 10 high-resolution zoomable panels.
+    </p>
+  </header>
+
+  <main>
+    <!-- Search -->
+    <section class="search-section">
+      <input
+        type="text"
+        id="searchInput"
+        placeholder="Search a name, place or event (e.g. Moses, Rome, Luther)..."
+        autocomplete="off"
+      >
+      <ul id="searchResults" class="search-results" hidden></ul>
+    </section>
+
+    <!-- Navigation -->
+    <nav class="panel-nav" aria-label="Panel navigation">
+      <button class="nav-btn" data-key="full">Full Chart</button>
+      <button class="nav-btn" data-key="p1">Panel 1</button>
+      <button class="nav-btn" data-key="p2">Panel 2</button>
+      <button class="nav-btn" data-key="p3">Panel 3</button>
+      <button class="nav-btn" data-key="p4">Panel 4</button>
+      <button class="nav-btn" data-key="p5">Panel 5</button>
+      <button class="nav-btn" data-key="p6">Panel 6</button>
+      <button class="nav-btn" data-key="p7">Panel 7</button>
+      <button class="nav-btn" data-key="p8">Panel 8</button>
+      <button class="nav-btn" data-key="p9">Panel 9</button>
+      <button class="nav-btn" data-key="p10">Panel 10</button>
+    </nav>
+
+    <!-- Viewer header -->
+    <section class="viewer-header">
+      <h2 id="viewerTitle">Full Chart</h2>
+      <p id="viewerDescription">
+        The complete Adams Synchronological Chart. Use this view for orientation
+        across the entire timeline.
+      </p>
+    </section>
+
+    <!-- Viewer -->
+    <div id="openseadragon-viewer" class="viewer"></div>
+
+    <!-- Note + actions -->
+    <p class="viewer-note">
+      Use the full chart for orientation, then open each panel for a clearer high-resolution reading view.
+    </p>
+
+    <div class="viewer-actions">
+      <button id="prevBtn" class="action-btn">← Previous Panel</button>
+      <button id="openTabBtn" class="action-btn primary">Open Image in New Tab</button>
+      <button id="nextBtn" class="action-btn">Next Panel →</button>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <p>Adams Chart Visual Companion · Companion to the book</p>
+  </footer>
+
+  <!-- OpenSeadragon from CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/openseadragon/4.1.0/openseadragon.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
