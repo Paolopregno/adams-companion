@@ -178,7 +178,10 @@ function showLoading(visible) {
 
 /* -------- Reset zoom when image is opened -------- */
 viewer.addHandler("open", () => {
-  viewer.viewport.goHome(true);
+  // Use a tiny delay so OpenSeadragon has time to compute the bounds
+  setTimeout(() => {
+    viewer.viewport.goHome(true);
+  }, 50);
 });
 
 /* Hide the loading overlay reliably across DZI behaviors:

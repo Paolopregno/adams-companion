@@ -214,6 +214,11 @@ main {
   pointer-events: none;
 }
 
+/* Honor the [hidden] attribute even when display is set elsewhere */
+.loading-overlay[hidden] {
+  display: none !important;
+}
+
 .loading-box {
   text-align: center;
   color: var(--title);
