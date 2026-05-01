@@ -174,6 +174,11 @@ function showLoading(visible) {
 /* -------- Reset zoom and hide loader when image is ready -------- */
 viewer.addHandler("open", () => {
   viewer.viewport.goHome(true);
+});
+
+/* When the first tile is actually drawn, the panel is visible — hide the loader.
+   This is more reliable than 'open' for DZI sources, which fires before tiles are rendered. */
+viewer.addHandler("tile-drawn", () => {
   showLoading(false);
 });
 
