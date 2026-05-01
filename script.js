@@ -151,6 +151,11 @@ function loadPanel(key) {
   // Show loading overlay
   showLoading(true);
 
+  // Safety: hide the loader after 4 seconds even if no event fires.
+  // By then the user sees something, and the spinner has done its job.
+  clearTimeout(window.__loaderTimeout);
+  window.__loaderTimeout = setTimeout(() => showLoading(false), 4000);
+
   // Swap the image in the existing viewer (no new viewer instance)
   viewer.open(panel.image);
 
@@ -171,16 +176,21 @@ function showLoading(visible) {
   if (el) el.hidden = !visible;
 }
 
-/* -------- Reset zoom and hide loader when image is ready -------- */
+/* -------- Reset zoom when image is opened -------- */
 viewer.addHandler("open", () => {
   viewer.viewport.goHome(true);
 });
 
-/* When the first tile is actually drawn, the panel is visible — hide the loader.
-   This is more reliable than 'open' for DZI sources, which fires before tiles are rendered. */
-viewer.addHandler("tile-drawn", () => {
+/* Hide the loading overlay reliably across DZI behaviors:
+   - 'tile-drawn' fires when a tile is actually painted
+   - 'fully-loaded-change' fires when all visible tiles are loaded
+   - safety timeout in case something is stuck */
+function hideLoaderOnce() {
   showLoading(false);
-});
+}
+
+viewer.addHandler("tile-drawn", hideLoaderOnce);
+viewer.addHandler("fully-loaded-change", hideLoaderOnce);
 
 viewer.addHandler("open-failed", () => {
   showLoading(false);
